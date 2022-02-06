@@ -1,5 +1,5 @@
 .element__container-image {
   width: 100%;
   position: relative;
-  aspect-ratio: 1 / 1;
+  padding-bottom: 100%;
 }
