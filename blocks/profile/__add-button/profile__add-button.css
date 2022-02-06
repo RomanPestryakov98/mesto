@@ -1,0 +1,15 @@
+.profile__add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  background-color: black;
+  border: 1px solid white;
+}
+
+@media screen and (max-width: 745px) {
+  .profile__add-button {
+    width: 100%;
+  }
+}
