@@ -1,0 +1,7 @@
+.popup__close-cross {
+  transition: opacity 0.3s ease 0s;
+}
+
+.popup__close-cross:hover {
+  opacity: 0.6;
+}

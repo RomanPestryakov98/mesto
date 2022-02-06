@@ -17,11 +17,11 @@
 
 @media screen and (max-width: 745px) {
   .header {
+    position: static;
     padding-bottom: 28px;
     padding-bottom: 31px;
   }
   .header::after {
-    width: 200vw;
-    left: -10%;
+    top: 98.39px;
   }
 }
