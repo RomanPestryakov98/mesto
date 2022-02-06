@@ -14,3 +14,5 @@
 * Git Bash
 * Методология БЭМ
 * Grid Layout и Flexbox
+
+[Ссылка на GitHub Pages](https://romanpestryakov98.github.io/mesto/).
