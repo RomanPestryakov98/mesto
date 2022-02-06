@@ -12,7 +12,6 @@
 <body class="page">
 
   <header class="header">
-
     <img src="./images/header/logo.svg" alt="Лого" class="header__logo">
   </header>
 
@@ -102,9 +101,25 @@
       </div>
     </section>
   </main>
+
   <footer class="footer">
     <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
   </footer>
+
+  <div class="popup">
+    <div class="popup__container">
+      <a href="" class="popup__close">
+        <img src="./images/popup/close.svg" alt="Закрыть" class="popup__close-cross">
+      </a>
+      <h3 class="popup__title">Редактировать профиль</h3>
+      <form action="#" class="popup__form">
+        <input autocomplete="off" type="text" placeholder="Имя" class="popup__input">
+        <input autocomplete="off" type="text" placeholder="О себе" class="popup__input">
+        <input type="submit" value="Сохранить" class="popup__submit">
+      </form>
+    </div>
+  </div>
+
 </body>
 
 </html>
