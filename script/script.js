@@ -9,7 +9,7 @@ const profileText = document.querySelector('.profile__text'); // Получае�
 const form = document.querySelector('.popup__form'); // Получаем селектор с информацией о себе
 
 // Обработчки клика по открытию попапа
-buttonOpen.addEventListener('click', closeProfilePopup);
+buttonOpen.addEventListener('click', openProfilePopup);
 
 // Обработчки клика по закрытию попапа
 crossClose.addEventListener('click', closeProfilePopup);
@@ -17,30 +17,32 @@ crossClose.addEventListener('click', closeProfilePopup);
 // Обработчки клика по закрытию попапа в любом месте экрана кроме попапа
 popup.addEventListener('click', closeProfilePopup);
 
-// Получаем функцию по открытию и закрытию попапа
+// Получаем функцию по открытию попапа
+function openProfilePopup(event) {
+  event.preventDefault();
+  inputName.value = profileName.textContent;
+  inputAbout.value = profileText.textContent;
+  popup.classList.add('popup_opened');
+}
+
+// Получаем функцию по закрытию попапа
 function closeProfilePopup(event) {
   event.preventDefault();
   if (event.target === popup) {
-    popup.classList.toggle('popup_opened')
+    popup.classList.remove('popup_opened');
   }
-  else if (event.currentTarget === buttonOpen) {
-    inputName.value = profileName.textContent;
-    inputAbout.value = profileText.textContent;
-    popup.classList.toggle('popup_opened')
+  if (event.target === crossClose) {
+    popup.classList.remove('popup_opened');
   }
-  else if (event.currentTarget === crossClose) {
-    popup.classList.toggle('popup_opened')
-  }
-}
 
-// Обработчик клика по отпрвке формы
+}
+// Обработчик отправки формы
 form.addEventListener('submit', sendForm);
-buttonSave.addEventListener('click', sendForm);
+
 
 // Получаем функцию по отпрвке формы
 function sendForm(event) {
   event.preventDefault();
   profileName.textContent = inputName.value;
   profileText.textContent = inputAbout.value;
-  popup.classList.remove('popup_opened');
 }
