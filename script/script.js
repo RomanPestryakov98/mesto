@@ -6,7 +6,7 @@ const inputName = document.querySelector('.popup__input_type_name'); // Полу
 const inputAbout = document.querySelector('.popup__input_type_about'); // Получаем инпут с информацией о себе
 const profileName = document.querySelector('.profile__name'); // Получаем селектор с именем
 const profileText = document.querySelector('.profile__text'); // Получаем селектор с информацией о себе
-const form = document.querySelector('.popup__form'); // Получаем селектор с информацией о себе
+const form = document.querySelector('.popup__form'); // Получаем форму
 
 // Обработчки клика по открытию попапа
 buttonOpen.addEventListener('click', openProfilePopup);
@@ -15,34 +15,34 @@ buttonOpen.addEventListener('click', openProfilePopup);
 crossClose.addEventListener('click', closeProfilePopup);
 
 // Обработчки клика по закрытию попапа в любом месте экрана кроме попапа
-popup.addEventListener('click', closeProfilePopup);
+popup.addEventListener('click', handleOverlay);
+
+// Обработчик отправки формы
+form.addEventListener('submit', sendForm);
 
 // Получаем функцию по открытию попапа
-function openProfilePopup(event) {
-  event.preventDefault();
+function openProfilePopup() {
   inputName.value = profileName.textContent;
   inputAbout.value = profileText.textContent;
   popup.classList.add('popup_opened');
 }
 
 // Получаем функцию по закрытию попапа
-function closeProfilePopup(event) {
-  event.preventDefault();
-  if (event.target === popup) {
-    popup.classList.remove('popup_opened');
-  }
-  if (event.target === crossClose) {
-    popup.classList.remove('popup_opened');
-  }
-
+function closeProfilePopup() {
+  popup.classList.remove('popup_opened');
 }
-// Обработчик отправки формы
-form.addEventListener('submit', sendForm);
 
+// Получаем функцию по закрытию попапа по клику в любой области кроме самой формы
+function handleOverlay(event) {
+  if (event.target === popup) {
+    closeProfilePopup();
+  }
+}
 
 // Получаем функцию по отпрвке формы
 function sendForm(event) {
   event.preventDefault();
   profileName.textContent = inputName.value;
   profileText.textContent = inputAbout.value;
+  closeProfilePopup();
 }
