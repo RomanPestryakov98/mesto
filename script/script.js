@@ -20,7 +20,8 @@ const formAddCard = document.querySelector('.popup__form_type_add-card'); // П�
 const sectionElements = document.querySelector('.elements'); // Контейнер с карточками
 const cardTemplate = document.querySelector('#add-card').content; // template
 
-const likes = document.querySelectorAll('.element__like'); // Получаем кнопку Лайка
+const likes = document.querySelectorAll('.element__like'); // Получаем кнопки лайка
+const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
 
 
 const initialCards = [
@@ -94,10 +95,22 @@ for (let i = 0; i < likes.length; i++) {
   like.addEventListener('click', addLike);
 }
 
+// Обработчик удаления карточки
+for (let i = 0; i < deleteCards.length; i++) {
+  let card = deleteCards[i];
+  card.addEventListener('click', deleteCard);
+}
+
 // Получаем функцию добавления лайка
 function addLike() {
   this.classList.toggle('element__like_disabled');
   this.classList.toggle('element__like_active');
+}
+
+// Получаем функцию удаления карточки
+function deleteCard() {
+  const parentCard = this.parentElement.parentElement;
+  parentCard.remove();
 }
 
 // Получаем функцию по открытию попапа
@@ -168,5 +181,12 @@ function addCardInContainer() {
   for (let i = 0; i < likes.length; i++) {
     let like = likes[i];
     like.addEventListener('click', addLike);
+  }
+
+  const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
+  // Обработчик лайка
+  for (let i = 0; i < deleteCards.length; i++) {
+    let card = deleteCards[i];
+    card.addEventListener('click', deleteCard);
   }
 }
