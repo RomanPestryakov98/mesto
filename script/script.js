@@ -7,6 +7,7 @@ const inputAbout = document.querySelector('.popup__input_type_about'); // Пол
 const profileName = document.querySelector('.profile__name'); // Получаем селектор с именем
 const profileText = document.querySelector('.profile__text'); // Получаем селектор с информацией о себе
 const formProfile = document.querySelector('.popup__form'); // Получаем форму
+const overlaysPopup = document.querySelectorAll('.popup__overlay'); // Получаем оверлеи
 
 // Попап добавления карточки
 const buttonAddCard = document.querySelector('.profile__add-button'); // Кнопка по добавлению карточки
@@ -88,14 +89,9 @@ closeAddCard.addEventListener('click', closeAddCardPopup);
 // Обработчки клика по закрытию попапа по добавлению карточки
 crossCloseOpenImage.addEventListener('click', closeOpenImagePopup);
 
+
 // Обработчки клика по закрытию попапа в любом месте экрана кроме попапа
 popupProfile.addEventListener('click', handleOverlay);
-
-// Обработчки клика по закрытию попапа c добавлением карточки в любом месте экрана кроме попапа
-popupAddCard.addEventListener('click', handleOverlayAddCard);
-
-// Обработчки клика по закрытию попапа c добавлением карточки в любом месте экрана кроме попапа
-popupOpenImage.addEventListener('click', handleOverlayOpenImage);
 
 // Обработчик отправки формы
 formProfile.addEventListener('submit', sendForm);
@@ -119,6 +115,12 @@ for (let i = 0; i < deleteCards.length; i++) {
 for (let i = 0; i < imagesCards.length; i++) {
   let image = imagesCards[i];
   image.addEventListener('click', openImage);
+}
+
+// Обработчик клика по оверлеям для закрытия любого попапа по которому был клик
+for (let i = 0; i < overlaysPopup.length; i++) {
+  let overlayPopup = overlaysPopup[i];
+  overlayPopup.addEventListener('click', handleOverlay);
 }
 
 // Получаем открытие картинки
@@ -171,24 +173,10 @@ function closeOpenImagePopup() {
   popupOpenImage.classList.remove('popup_opened');
 }
 
-// Получаем функцию по закрытию попапа по клику в любой области кроме самой формы
+// Получаем функцию по закрытию всех попапов по клику в любой области кроме самой формы
 function handleOverlay(event) {
-  if (event.target === popupProfile) {
-    closeProfilePopup();
-  }
-}
-
-// Получаем функцию по закрытию попапа с добавлением карточки по клику в любой области кроме самой формы
-function handleOverlayAddCard(event) {
-  if (event.target === popupAddCard) {
-    closeAddCardPopup();
-  }
-}
-
-// Получаем функцию по закрытию попапа с открытием картинки по клику в любой области кроме самой формы
-function handleOverlayOpenImage(event) {
-  if (event.target === popupOpenImage) {
-    closeOpenImagePopup();
+  if (event.target === this) {
+    this.parentElement.classList.remove('popup_opened');
   }
 }
 
