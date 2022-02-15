@@ -20,6 +20,8 @@ const formAddCard = document.querySelector('.popup__form_type_add-card'); // П�
 const sectionElements = document.querySelector('.elements'); // Контейнер с карточками
 const cardTemplate = document.querySelector('#add-card').content; // template
 
+const likes = document.querySelectorAll('.element__like'); // Получаем кнопку Лайка
+
 
 const initialCards = [
   {
@@ -86,6 +88,18 @@ form.addEventListener('submit', sendForm);
 // Обработчик отправки формы по добавлению карточки
 formAddCard.addEventListener('submit', sendFormAddCard);
 
+// Обработчик лайка
+for (let i = 0; i < likes.length; i++) {
+  let like = likes[i];
+  like.addEventListener('click', addLike);
+}
+
+// Получаем функцию добавления лайка
+function addLike() {
+  this.classList.toggle('element__like_disabled');
+  this.classList.toggle('element__like_active');
+}
+
 // Получаем функцию по открытию попапа
 function openProfilePopup() {
   inputName.value = profileName.textContent;
@@ -130,7 +144,7 @@ function sendForm(event) {
   closeProfilePopup();
 }
 
-// Получаем функцию по отпрвке формы с добавлением карточки
+// Получаем функцию по отправке формы с добавлением карточки
 function sendFormAddCard(event) {
   event.preventDefault();
   const card = {
@@ -148,5 +162,11 @@ function sendFormAddCard(event) {
 function addCardInContainer() {
   const card = cardTemplate.querySelector('.element').cloneNode(true);
   sectionElements.prepend(card);
-}
 
+  const likes = document.querySelectorAll('.element__like'); // Получаем кнопку Лайка
+  // Обработчик лайка
+  for (let i = 0; i < likes.length; i++) {
+    let like = likes[i];
+    like.addEventListener('click', addLike);
+  }
+}
