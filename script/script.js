@@ -1,36 +1,30 @@
-// Попап профиля
+const sectionElements = document.querySelector('.elements'); // Контейнер с карточками
+const cardTemplate = document.querySelector('#add-card').content; // template
+const likes = document.querySelectorAll('.element__like'); // Получаем кнопки лайка
+const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
+
+// Получаем общие элементы для всех попапов
+const overlaysPopup = document.querySelectorAll('.popup__overlay'); // Получаем оверлеи
+const crossCloses = document.querySelectorAll('.popup__close');  // Получаем крестик закрытия попапа
+
+// Попап Профиля
+const popupProfile = document.querySelector('.popup_type_profile'); // Получаем попап профиля
 const buttonOpen = document.querySelector('.profile__edit-button'); // Редактируем профиль
-const popupProfile = document.querySelector('.popup_type_profile'); // Получаем попап
-const crossCloseProfile = document.querySelector('.popup__close_type_profile');  // Получаем крестик закрытия попапа
 const inputName = document.querySelector('.popup__input_type_name'); // Получаем инпут с именем
 const inputAbout = document.querySelector('.popup__input_type_about'); // Получаем инпут с информацией о себе
 const profileName = document.querySelector('.profile__name'); // Получаем селектор с именем
 const profileText = document.querySelector('.profile__text'); // Получаем селектор с информацией о себе
 const formProfile = document.querySelector('.popup__form'); // Получаем форму
-const overlaysPopup = document.querySelectorAll('.popup__overlay'); // Получаем оверлеи
 
-// Попап добавления карточки
+// Попап Добавления карточки
+const popupAddCard = document.querySelector('.popup_type_add-card'); // Получаем попап добавления карточки
 const buttonAddCard = document.querySelector('.profile__add-button'); // Кнопка по добавлению карточки
-const popupAddCard = document.querySelector('.popup_type_add-card'); // Получаем попап по добавлению карточки
 const inputTitle = document.querySelector('.popup__input_type_title'); // Получаем инпут с заголовком
 const inputLink = document.querySelector('.popup__input_type_link'); // Получаем инпут с ссылкой
-const closeAddCard = document.querySelector('.popup__close_type_add-card');  // Получаем крестик закрытия попапа по добавлению карточки
 const formAddCard = document.querySelector('.popup__form_type_add-card'); // Получаем форму по добавлению карточки
 
-// Попап открытой картинки
-const popupOpenImage = document.querySelector('.popup_type_image'); // Получаем попап по открытию картинки
-const imagesCards = document.querySelectorAll('.element__image'); // Получаем картинки из карточек
-const crossCloseOpenImage = document.querySelector('.popup__close_type_open');  // Получаем крестик закрытия попапа по открытию картинки
-
-
-const sectionElements = document.querySelector('.elements'); // Контейнер с карточками
-const cardTemplate = document.querySelector('#add-card').content; // template
-
-
-// Лайки
-const likes = document.querySelectorAll('.element__like'); // Получаем кнопки лайка
-const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
-
+// Попап Открытия картинки
+const popupOpenImage = document.querySelector('.popup_type_image');
 
 // Массив с карточками
 const initialCards = [
@@ -62,36 +56,47 @@ const initialCards = [
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
 
-// Функцияя по заполнению карточей контентом
+// Функцияя по заполнению контейнера карточками при входе на страницу
 function pushCardsInContainer() {
-  let images = document.querySelectorAll('.element__image'); // Получаемя массив с картинками
-  let title = document.querySelectorAll('.element__title'); // Получаемя массив с заголовками к картинкам
-
-  for (let i = 0; i < images.length; i++) {
-    images[i].src = initialCards[i].link;
-    title[i].textContent = initialCards[i].name;
-  }
+  initialCards.forEach(function (elem) {
+    renderCard(createCard(elem.name, elem.link), sectionElements);
+  })
 }
 
+// Функцияя по созданию карточки
+function createCard(name, link) {
+  const card = cardTemplate.querySelector('.element').cloneNode(true); // Берем из глобальной переменной template копию карточки
+  const imageTitle = card.querySelector('.element__title'); // Создаем переменную тайтла карточки
+  const imageCard = card.querySelector('.element__image'); // Создаем переменную картинки карточки
+  imageTitle.textContent = name;
+  imageCard.src = link;
+  imageCard.alt = name;
+  const buttonLike = card.querySelector('.element__like');
+  const buttonDelete = card.querySelector('.element__delete');
+  buttonLike.addEventListener('click', addLike);
+  buttonDelete.addEventListener('click', deleteCard);
+  imageCard.addEventListener('click', openImage);
+  return card;
+}
 
-// Обработчки клика по открытию попапа
-buttonOpen.addEventListener('click', openProfilePopup);
+// Функцияя по вставке готовой карточки в контейнер
+function renderCard(card, container) {
+  container.prepend(card);
+}
+
+// Функцияя по заполнению полей профиля
+function createValueInput() {
+  const name = document.querySelector('.profile__name');
+  const text = document.querySelector('.profile__text');
+  inputName.value = name.textContent;
+  inputAbout.value = text.textContent;
+}
+
+// Обработчки клика по открытию попапа профиля
+buttonOpen.addEventListener('click', () => openPopup(popupProfile));
 
 // Обработчки клика по открытию попапа c добавлением карточки
-buttonAddCard.addEventListener('click', openAddCardPopup);
-
-// Обработчки клика по закрытию попапа
-crossCloseProfile.addEventListener('click', closeProfilePopup);
-
-// Обработчки клика по закрытию попапа по добавлению карточки
-closeAddCard.addEventListener('click', closeAddCardPopup);
-
-// Обработчки клика по закрытию попапа по добавлению карточки
-crossCloseOpenImage.addEventListener('click', closeOpenImagePopup);
-
-
-// Обработчки клика по закрытию попапа в любом месте экрана кроме попапа
-popupProfile.addEventListener('click', handleOverlay);
+buttonAddCard.addEventListener('click', () => openPopup(popupAddCard));
 
 // Обработчик отправки формы
 formProfile.addEventListener('submit', sendForm);
@@ -99,39 +104,40 @@ formProfile.addEventListener('submit', sendForm);
 // Обработчик отправки формы по добавлению карточки
 formAddCard.addEventListener('submit', sendFormAddCard);
 
-// Обработчик лайка
-for (let i = 0; i < likes.length; i++) {
-  let like = likes[i];
-  like.addEventListener('click', addLike);
-}
-
-// Обработчик удаления карточки
-for (let i = 0; i < deleteCards.length; i++) {
-  let card = deleteCards[i];
-  card.addEventListener('click', deleteCard);
-}
-
-// Обработчик клика по картинки
-for (let i = 0; i < imagesCards.length; i++) {
-  let image = imagesCards[i];
-  image.addEventListener('click', openImage);
-}
-
 // Обработчик клика по оверлеям для закрытия любого попапа по которому был клик
-for (let i = 0; i < overlaysPopup.length; i++) {
-  let overlayPopup = overlaysPopup[i];
-  overlayPopup.addEventListener('click', handleOverlay);
-}
+overlaysPopup.forEach(function (elem) {
+  const overlayPopup = elem;
+  overlayPopup.addEventListener('click', () => closePopup(overlayPopup.closest('.popup')));
+})
+
+// Обработчик клика по крестику для закрытия всех попапов
+crossCloses.forEach(function (elem) {
+  const crossClose = elem;
+  crossClose.addEventListener('click', () => closePopup(crossClose.closest('.popup')));
+})
 
 // Получаем открытие картинки
 function openImage() {
-  const popupImage = document.querySelector('.popup_type_image');
-  let contentImage = popupImage.querySelector('.popup__image');
-  let titleImage = popupImage.querySelector('.popup__label');
-  let title = this.parentElement.parentElement.querySelector('.element__title');
+  const contentImage = popupOpenImage.querySelector('.popup__image');
+  const titleImage = popupOpenImage.querySelector('.popup__label');
+  const title = this.parentElement.parentElement.querySelector('.element__title');
   contentImage.src = this.src;
+  contentImage.alt = this.alt;
   titleImage.textContent = title.textContent;
-  popupImage.classList.add('popup_opened');
+  openPopup(popupOpenImage);
+}
+
+// Получаем функцию открытия попапа
+function openPopup(popup) {
+  if (popup === popupProfile) {
+    createValueInput();
+  }
+  popup.classList.add('popup_opened');
+}
+
+// Получаем функцию закрытия попапа
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
 }
 
 // Получаем функцию добавления лайка
@@ -146,85 +152,18 @@ function deleteCard() {
   parentCard.remove();
 }
 
-// Получаем функцию по открытию попапа
-function openProfilePopup() {
-  inputName.value = profileName.textContent;
-  inputAbout.value = profileText.textContent;
-  popupProfile.classList.add('popup_opened');
-}
-
-// Получаем функцию по открытию попапа с добавлением карточки
-function openAddCardPopup() {
-  popupAddCard.classList.add('popup_opened');
-}
-
-// Получаем функцию по закрытию попапа
-function closeProfilePopup() {
-  popupProfile.classList.remove('popup_opened');
-}
-
-// Получаем функцию по закрытию попапа с добавлением карточки
-function closeAddCardPopup() {
-  popupAddCard.classList.remove('popup_opened');
-}
-
-// Получаем функцию по закрытию попапа c открытием картинки
-function closeOpenImagePopup() {
-  popupOpenImage.classList.remove('popup_opened');
-}
-
-// Получаем функцию по закрытию всех попапов по клику в любой области кроме самой формы
-function handleOverlay(event) {
-  if (event.target === this) {
-    this.parentElement.classList.remove('popup_opened');
-  }
-}
-
 // Получаем функцию по отпрвке формы
 function sendForm(event) {
   event.preventDefault();
   profileName.textContent = inputName.value;
   profileText.textContent = inputAbout.value;
-  closeProfilePopup();
+  closePopup(popupProfile);
 }
 
 // Получаем функцию по отправке формы с добавлением карточки
 function sendFormAddCard(event) {
   event.preventDefault();
-  const card = {
-    name: inputTitle.value,
-    link: inputLink.value
-  }
-  initialCards.unshift(card);
-  addCardInContainer();
-  pushCardsInContainer();
-  closeAddCardPopup();
-}
-
-
-// Получаем функцию по добавлению карточки в контейнер
-function addCardInContainer() {
-  const card = cardTemplate.querySelector('.element').cloneNode(true);
-  sectionElements.prepend(card);
-
-  const likes = document.querySelectorAll('.element__like'); // Получаем кнопку Лайка
-  // Обработчик лайка
-  for (let i = 0; i < likes.length; i++) {
-    let like = likes[i];
-    like.addEventListener('click', addLike);
-  }
-
-  const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
-  // Обработчик лайка
-  for (let i = 0; i < deleteCards.length; i++) {
-    let card = deleteCards[i];
-    card.addEventListener('click', deleteCard);
-  }
-
-  const imagesCards = document.querySelectorAll('.element__image'); // Получаем картинки из карточек
-  // Обработчик клика по картинки
-  for (let i = 0; i < imagesCards.length; i++) {
-    let image = imagesCards[i];
-    image.addEventListener('click', openImage);
-  }
+  renderCard(createCard(inputTitle.value, inputLink.value), sectionElements);
+  formAddCard.reset();
+  closePopup(popupAddCard);
 }
