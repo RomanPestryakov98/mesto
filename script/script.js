@@ -54,7 +54,62 @@ const initialCards = [
   }
 ];
 
-pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
+
+// Получаем функцию открытия попапа
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+// Получаем функцию закрытия попапа
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
+// Функцияя по заполнению полей профиля
+function createValueInput() {
+  const name = document.querySelector('.profile__name');
+  const text = document.querySelector('.profile__text');
+  inputName.value = name.textContent;
+  inputAbout.value = text.textContent;
+}
+
+// Получаем открытие картинки
+function openImage() {
+  const contentImage = popupOpenImage.querySelector('.popup__image');
+  const titleImage = popupOpenImage.querySelector('.popup__label');
+  const title = this.parentElement.parentElement.querySelector('.element__title');
+  contentImage.src = this.src;
+  contentImage.alt = this.alt;
+  titleImage.textContent = title.textContent;
+  openPopup(popupOpenImage);
+}
+
+// Получаем функцию добавления лайка
+function addLike() {
+  this.classList.toggle('element__like_active');
+}
+
+// Получаем функцию удаления карточки
+function deleteCard() {
+  const parentCard = this.parentElement.parentElement;
+  parentCard.remove();
+}
+
+// Получаем функцию по отпрвке формы
+function sendForm(event) {
+  event.preventDefault();
+  profileName.textContent = inputName.value;
+  profileText.textContent = inputAbout.value;
+  closePopup(popupProfile);
+}
+
+// Получаем функцию по отправке формы с добавлением карточки
+function sendFormAddCard(event) {
+  event.preventDefault();
+  renderCard(createCard(inputTitle.value, inputLink.value), sectionElements);
+  formAddCard.reset();
+  closePopup(popupAddCard);
+}
 
 // Функцияя по заполнению контейнера карточками при входе на страницу
 function pushCardsInContainer() {
@@ -84,16 +139,10 @@ function renderCard(card, container) {
   container.prepend(card);
 }
 
-// Функцияя по заполнению полей профиля
-function createValueInput() {
-  const name = document.querySelector('.profile__name');
-  const text = document.querySelector('.profile__text');
-  inputName.value = name.textContent;
-  inputAbout.value = text.textContent;
-}
 
 // Обработчки клика по открытию попапа профиля
 buttonOpen.addEventListener('click', () => openPopup(popupProfile));
+buttonOpen.addEventListener('click', createValueInput);
 
 // Обработчки клика по открытию попапа c добавлением карточки
 buttonAddCard.addEventListener('click', () => openPopup(popupAddCard));
@@ -116,54 +165,5 @@ crossCloses.forEach(function (elem) {
   crossClose.addEventListener('click', () => closePopup(crossClose.closest('.popup')));
 })
 
-// Получаем открытие картинки
-function openImage() {
-  const contentImage = popupOpenImage.querySelector('.popup__image');
-  const titleImage = popupOpenImage.querySelector('.popup__label');
-  const title = this.parentElement.parentElement.querySelector('.element__title');
-  contentImage.src = this.src;
-  contentImage.alt = this.alt;
-  titleImage.textContent = title.textContent;
-  openPopup(popupOpenImage);
-}
 
-// Получаем функцию открытия попапа
-function openPopup(popup) {
-  if (popup === popupProfile) {
-    createValueInput();
-  }
-  popup.classList.add('popup_opened');
-}
-
-// Получаем функцию закрытия попапа
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-}
-
-// Получаем функцию добавления лайка
-function addLike() {
-  this.classList.toggle('element__like_disabled');
-  this.classList.toggle('element__like_active');
-}
-
-// Получаем функцию удаления карточки
-function deleteCard() {
-  const parentCard = this.parentElement.parentElement;
-  parentCard.remove();
-}
-
-// Получаем функцию по отпрвке формы
-function sendForm(event) {
-  event.preventDefault();
-  profileName.textContent = inputName.value;
-  profileText.textContent = inputAbout.value;
-  closePopup(popupProfile);
-}
-
-// Получаем функцию по отправке формы с добавлением карточки
-function sendFormAddCard(event) {
-  event.preventDefault();
-  renderCard(createCard(inputTitle.value, inputLink.value), sectionElements);
-  formAddCard.reset();
-  closePopup(popupAddCard);
-}
+pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
