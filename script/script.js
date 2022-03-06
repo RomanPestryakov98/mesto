@@ -1,7 +1,14 @@
+// Попап Открытия картинки
+const popupOpenImage = document.querySelector('.popup_type_image');
+
 const sectionElements = document.querySelector('.elements'); // Контейнер с карточками
 const cardTemplate = document.querySelector('#add-card').content; // template
 const likes = document.querySelectorAll('.element__like'); // Получаем кнопки лайка
 const deleteCards = document.querySelectorAll('.element__delete'); // Получаем кнопки удалить карточку
+const nameProfile = document.querySelector('.profile__name'); // Получаем имя в профиле
+const textProfile = document.querySelector('.profile__text'); // Получаем текст в профиле
+const contentImage = popupOpenImage.querySelector('.popup__image');
+const titleImage = popupOpenImage.querySelector('.popup__label-text');
 
 // Получаем общие элементы для всех попапов
 const overlaysPopup = document.querySelectorAll('.popup__overlay'); // Получаем оверлеи
@@ -23,8 +30,6 @@ const inputTitle = document.querySelector('.popup__input_type_title'); // Пол
 const inputLink = document.querySelector('.popup__input_type_link'); // Получаем инпут с ссылкой
 const formAddCard = document.querySelector('.popup__form_type_add-card'); // Получаем форму по добавлению карточки
 
-// Попап Открытия картинки
-const popupOpenImage = document.querySelector('.popup_type_image');
 
 // Массив с карточками
 const initialCards = [
@@ -67,18 +72,15 @@ function closePopup(popup) {
 
 
 // Функцияя по заполнению полей профиля
-function createValueInput() {
-  const name = document.querySelector('.profile__name');
-  const text = document.querySelector('.profile__text');
-  inputName.value = name.textContent;
-  inputAbout.value = text.textContent;
+function createValueInput(popup) {
+  inputName.value = nameProfile.textContent;
+  inputAbout.value = textProfile.textContent;
+  openPopup(popup);
 }
 
 // Получаем открытие картинки
 function openImage() {
-  const contentImage = popupOpenImage.querySelector('.popup__image');
-  const titleImage = popupOpenImage.querySelector('.popup__label');
-  const title = this.parentElement.parentElement.querySelector('.element__title');
+  const title = this.closest('.element').querySelector('.element__title');
   contentImage.src = this.src;
   contentImage.alt = this.alt;
   titleImage.textContent = title.textContent;
@@ -92,7 +94,7 @@ function addLike() {
 
 // Получаем функцию удаления карточки
 function deleteCard() {
-  const parentCard = this.parentElement.parentElement;
+  const parentCard = this.closest('.element');
   parentCard.remove();
 }
 
@@ -152,8 +154,7 @@ function closePopupEsc(popup) {
 
 
 // Обработчки клика по открытию попапа профиля
-buttonOpen.addEventListener('click', () => openPopup(popupProfile));
-buttonOpen.addEventListener('click', createValueInput);
+buttonOpen.addEventListener('click', () => createValueInput(popupProfile));
 
 // Обработчки клика по открытию попапа c добавлением карточки
 buttonAddCard.addEventListener('click', () => openPopup(popupAddCard));
