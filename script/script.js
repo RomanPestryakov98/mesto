@@ -65,6 +65,7 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
+
 // Функцияя по заполнению полей профиля
 function createValueInput() {
   const name = document.querySelector('.profile__name');
@@ -139,6 +140,16 @@ function renderCard(card, container) {
   container.prepend(card);
 }
 
+// Функции поиска открытого попапа
+function searchPopupOpen() {
+  return document.querySelector('.popup_opened');
+}
+
+// Функции закрытия попапа по нажатию Esc
+function closePopupEsc(popup) {
+  popup.classList.remove('popup_opened');
+}
+
 
 // Обработчки клика по открытию попапа профиля
 buttonOpen.addEventListener('click', () => openPopup(popupProfile));
@@ -165,5 +176,11 @@ crossCloses.forEach(function (elem) {
   crossClose.addEventListener('click', () => closePopup(crossClose.closest('.popup')));
 })
 
+// Обработчик клика по Esc
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape' && searchPopupOpen()) {
+    closePopupEsc(searchPopupOpen())
+  }
+})
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
