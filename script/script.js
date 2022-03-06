@@ -63,13 +63,14 @@ const initialCards = [
 // Получаем функцию открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', (evt) => closePopupEsc(evt));
 }
 
 // Получаем функцию закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', (evt) => closePopupEsc(evt));
 }
-
 
 // Функцияя по заполнению полей профиля
 function createValueInput(popup) {
@@ -78,6 +79,20 @@ function createValueInput(popup) {
   openPopup(popup);
 }
 
+// Функцияя поиска открытого попапа
+function searchPopupOpen() {
+  return document.querySelector('.popup_opened');
+}
+
+// Функцияя закрытия попапа Esc
+function closePopupEsc(evt) {
+  const popupOpen = searchPopupOpen();
+  if (evt.key === 'Escape' && popupOpen) {
+    popupOpen.classList.remove('popup_opened');
+  }
+}
+
+
 // Получаем открытие картинки
 function openImage() {
   const title = this.closest('.element').querySelector('.element__title');
@@ -85,6 +100,7 @@ function openImage() {
   contentImage.alt = this.alt;
   titleImage.textContent = title.textContent;
   openPopup(popupOpenImage);
+  document.addEventListener('keydown', (evt) => closePopupEsc(evt));
 }
 
 // Получаем функцию добавления лайка
@@ -142,16 +158,6 @@ function renderCard(card, container) {
   container.prepend(card);
 }
 
-// Функции поиска открытого попапа
-function searchPopupOpen() {
-  return document.querySelector('.popup_opened');
-}
-
-// Функции закрытия попапа по нажатию Esc
-function closePopupEsc(popup) {
-  popup.classList.remove('popup_opened');
-}
-
 
 // Обработчки клика по открытию попапа профиля
 buttonOpen.addEventListener('click', () => createValueInput(popupProfile));
@@ -177,11 +183,5 @@ crossCloses.forEach(function (elem) {
   crossClose.addEventListener('click', () => closePopup(crossClose.closest('.popup')));
 })
 
-// Обработчик клика по Esc
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape' && searchPopupOpen()) {
-    closePopupEsc(searchPopupOpen())
-  }
-})
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
