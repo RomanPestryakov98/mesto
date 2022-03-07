@@ -55,5 +55,5 @@
 @import url('../blocks/popup/__submit/_disabled/popup__submit_disabled.css');
 @import url('../blocks/popup/__error/popup__error.css');
 @import url('../blocks/popup/__error/_visible/popup__error_visible.css');
-@import url('../blocks/popup/__label/popup__label.css');
+@import url('../blocks/popup/__label-text/popup__label-text.css');
 
