@@ -63,20 +63,19 @@ const initialCards = [
 // Получаем функцию открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', (evt) => closePopupEsc(evt));
+  document.addEventListener('keydown', closePopupEsc);
 }
 
 // Получаем функцию закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', (evt) => closePopupEsc(evt));
 }
 
 // Функцияя по заполнению полей профиля
-function createValueInput(popup) {
+function createValueInput() {
   inputName.value = nameProfile.textContent;
   inputAbout.value = textProfile.textContent;
-  openPopup(popup);
+  openPopup(popupProfile);
 }
 
 // Функцияя поиска открытого попапа
@@ -88,19 +87,18 @@ function searchPopupOpen() {
 function closePopupEsc(evt) {
   const popupOpen = searchPopupOpen();
   if (evt.key === 'Escape' && popupOpen) {
-    popupOpen.classList.remove('popup_opened');
+    closePopup(popupOpen);
+    document.removeEventListener('keydown', closePopupEsc);
   }
 }
 
 
 // Получаем открытие картинки
 function openImage() {
-  const title = this.closest('.element').querySelector('.element__title');
   contentImage.src = this.src;
   contentImage.alt = this.alt;
-  titleImage.textContent = title.textContent;
+  titleImage.textContent = this.alt;
   openPopup(popupOpenImage);
-  document.addEventListener('keydown', (evt) => closePopupEsc(evt));
 }
 
 // Получаем функцию добавления лайка
@@ -158,9 +156,8 @@ function renderCard(card, container) {
   container.prepend(card);
 }
 
-
 // Обработчки клика по открытию попапа профиля
-buttonOpen.addEventListener('click', () => createValueInput(popupProfile));
+buttonOpen.addEventListener('click', createValueInput);
 
 // Обработчки клика по открытию попапа c добавлением карточки
 buttonAddCard.addEventListener('click', () => openPopup(popupAddCard));
