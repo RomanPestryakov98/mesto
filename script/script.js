@@ -59,6 +59,11 @@ const initialCards = [
   }
 ];
 
+// Функция заполнения значения инпутов при входе на страницу
+function addValueInput() {
+  inputName.value = nameProfile.textContent;
+  inputAbout.value = textProfile.textContent;
+}
 
 // Получаем функцию открытия попапа
 function openPopup(popup) {
@@ -91,7 +96,6 @@ function closePopupEsc(evt) {
     document.removeEventListener('keydown', closePopupEsc);
   }
 }
-
 
 // Получаем открытие картинки
 function openImage() {
@@ -182,3 +186,4 @@ crossCloses.forEach(function (elem) {
 
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
+addValueInput();

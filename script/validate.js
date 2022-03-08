@@ -24,6 +24,7 @@ function enableValidation(obj) {
 
 function setEventListeners(formElement, buttonElement) {
   const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));
+  toggleButtonState(inputList, buttonElement);
   inputList.forEach(function (inputElement) {
     const error = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.addEventListener('input', function () {
