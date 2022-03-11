@@ -25,6 +25,7 @@ const formProfile = document.querySelector('.popup__form'); // Получаем 
 
 // Попап Добавления карточки
 const popupAddCard = document.querySelector('.popup_type_add-card'); // Получаем попап добавления карточки
+const submitAddCard = popupAddCard.querySelector('.popup__submit'); // Получаем сабмит добавления карточки
 const buttonAddCard = document.querySelector('.profile__add-button'); // Кнопка по добавлению карточки
 const inputTitle = document.querySelector('.popup__input_type_title'); // Получаем инпут с заголовком
 const inputLink = document.querySelector('.popup__input_type_link'); // Получаем инпут с ссылкой
@@ -59,11 +60,6 @@ const initialCards = [
   }
 ];
 
-// Функция заполнения значения инпутов при входе на страницу
-function addValueInput() {
-  inputName.value = nameProfile.textContent;
-  inputAbout.value = textProfile.textContent;
-}
 
 // Получаем функцию открытия попапа
 function openPopup(popup) {
@@ -74,6 +70,7 @@ function openPopup(popup) {
 // Получаем функцию закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
 }
 
 // Функцияя по заполнению полей профиля
@@ -81,6 +78,12 @@ function createValueInput() {
   inputName.value = nameProfile.textContent;
   inputAbout.value = textProfile.textContent;
   openPopup(popupProfile);
+}
+
+// Функцияя по открытию попапа добавления карточки
+function openAddCardPopup() {
+  disableSubmitButton(submitAddCard, obj.inactiveButtonClass);
+  openPopup(popupAddCard);
 }
 
 // Функцияя поиска открытого попапа
@@ -93,7 +96,6 @@ function closePopupEsc(evt) {
   const popupOpen = searchPopupOpen();
   if (evt.key === 'Escape' && popupOpen) {
     closePopup(popupOpen);
-    document.removeEventListener('keydown', closePopupEsc);
   }
 }
 
@@ -160,11 +162,12 @@ function renderCard(card, container) {
   container.prepend(card);
 }
 
+
 // Обработчки клика по открытию попапа профиля
 buttonOpen.addEventListener('click', createValueInput);
 
 // Обработчки клика по открытию попапа c добавлением карточки
-buttonAddCard.addEventListener('click', () => openPopup(popupAddCard));
+buttonAddCard.addEventListener('click', openAddCardPopup);
 
 // Обработчик отправки формы
 formProfile.addEventListener('submit', sendForm);
@@ -186,4 +189,4 @@ crossCloses.forEach(function (elem) {
 
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
-addValueInput();
+

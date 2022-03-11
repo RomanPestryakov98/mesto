@@ -7,8 +7,6 @@ const obj = {
   errorClass: 'popup__error_visible'
 }
 
-enableValidation(obj);
-
 
 function enableValidation(obj) {
   const formList = Array.from(document.querySelectorAll(obj.formSelector));
@@ -24,7 +22,6 @@ function enableValidation(obj) {
 function setEventListeners(formElement, button, input, inactiveButton, inputError, errorClass) {
   const buttonElement = formElement.querySelector(button);
   const inputList = Array.from(formElement.querySelectorAll(input));
-  toggleButtonState(inputList, buttonElement, inactiveButton);
   inputList.forEach(function (inputElement) {
     const error = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.addEventListener('input', function () {
@@ -35,6 +32,7 @@ function setEventListeners(formElement, button, input, inactiveButton, inputErro
   })
 }
 
+
 function checkInputValidity(inputElement, error, inputError, errorClass) {
   if (!inputElement.validity.valid) {
     showErrorInput(inputElement, error, inputElement.validationMessage, inputError, errorClass);
@@ -44,27 +42,29 @@ function checkInputValidity(inputElement, error, inputError, errorClass) {
   }
 }
 
+
 function showErrorInput(inputElement, error, errorMessage, inputError, errorClass) {
   inputElement.classList.add(inputError);
   error.textContent = errorMessage;
   error.classList.add(errorClass);
 }
 
+
 function hideErrorInput(inputElement, error, inputError, errorClass) {
   inputElement.classList.remove(inputError);
   error.classList.remove(errorClass);
 }
 
+
 function toggleButtonState(inputList, buttonElement, inactiveButton) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(inactiveButton);
-    buttonElement.setAttribute('disabled', true);
+    disableSubmitButton(buttonElement, inactiveButton)
   }
   else {
-    buttonElement.classList.remove(inactiveButton);
-    buttonElement.removeAttribute('disabled');
+    enableSubmitButton(buttonElement, inactiveButton)
   }
 }
+
 
 function hasInvalidInput(inputList) {
   return inputList.some(function (inputElement) {
@@ -73,3 +73,16 @@ function hasInvalidInput(inputList) {
 }
 
 
+function disableSubmitButton(buttonElement, inactiveButton) {
+  buttonElement.classList.add(inactiveButton);
+  buttonElement.setAttribute('disabled', true);
+}
+
+
+function enableSubmitButton(buttonElement, inactiveButton) {
+  buttonElement.classList.remove(inactiveButton);
+  buttonElement.removeAttribute('disabled');
+}
+
+
+enableValidation(obj);
