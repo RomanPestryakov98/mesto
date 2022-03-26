@@ -190,3 +190,7 @@ crossCloses.forEach(function (elem) {
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
 
+import Card from './Card.js';
+
+const res = new Card('Цветные скалы Чжанъе Данксиа', 'https://ie.wampi.ru/2022/02/14/05.jpg', '#add-card');
+res.generatedCard();
