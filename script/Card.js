@@ -24,6 +24,7 @@ export default class Card {
   }
 
   _getTemplate() {
+    this._test = 'test';
     const card = document
       .querySelector(this._selectorTemplate)
       .content

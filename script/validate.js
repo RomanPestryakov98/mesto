@@ -1,4 +1,4 @@
-const obj = {
+/*const obj = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit',
@@ -28,7 +28,6 @@ function setEventListeners(formElement, button, input, inactiveButton, inputErro
       checkInputValidity(inputElement, error, inputError, errorClass);
       toggleButtonState(inputList, buttonElement, inactiveButton);
     });
-
   })
 }
 
@@ -86,3 +85,4 @@ function enableSubmitButton(buttonElement, inactiveButton) {
 
 
 enableValidation(obj);
+*/

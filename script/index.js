@@ -1,3 +1,22 @@
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
+const obj = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
+
+const formList = document.querySelectorAll('.popup__form');
+formList.forEach(function (form) {
+  const formValid = new FormValidator(obj, form);
+  formValid.enableValidation();
+})
+
 // Попап Открытия картинки
 const popupOpenImage = document.querySelector('.popup_type_image');
 
@@ -82,7 +101,7 @@ function createValueInput() {
 
 // Функцияя по открытию попапа добавления карточки
 function openAddCardPopup() {
-  disableSubmitButton(submitAddCard, obj.inactiveButtonClass);
+  //disableSubmitButton(submitAddCard, obj.inactiveButtonClass);
   openPopup(popupAddCard);
 }
 
@@ -190,7 +209,5 @@ crossCloses.forEach(function (elem) {
 
 pushCardsInContainer(); //заполняем карточки контентом при входе на страницу
 
-import Card from './Card.js';
 
-const res = new Card('Цветные скалы Чжанъе Данксиа', 'https://ie.wampi.ru/2022/02/14/05.jpg', '#add-card');
-res.generatedCard();
+
