@@ -1,20 +1,10 @@
+import { openPopup } from "./utils.js";
+
 const popupOpenImage = document.querySelector('.popup_type_image');
 const srcPopupImage = popupOpenImage.querySelector('.popup__image');
 const textPopupImage = popupOpenImage.querySelector('.popup__label-text');
+const containerWithCards = document.querySelector('.elements');
 
-// Получаем функцию открытия попапа
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEsc);
-}
-
-// Функцияя закрытия попапа Esc
-function closePopupEsc(evt) {
-  const popupOpen = searchPopupOpen();
-  if (evt.key === 'Escape' && popupOpen) {
-    closePopup(popupOpen);
-  }
-}
 
 export default class Card {
   constructor(title, image, selectorTemplate) {
@@ -73,6 +63,6 @@ export default class Card {
     this._setEventListeners();
     this._element.querySelector('.element__title').textContent = this._title;
     this._element.querySelector('.element__image').src = this._image;
-    document.querySelector('.elements').append(this._element);
+    containerWithCards.prepend(this._element);
   }
 }
