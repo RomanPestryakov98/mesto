@@ -14,7 +14,6 @@ export default class Card {
   }
 
   _getTemplate() {
-    this._test = 'test';
     const card = document
       .querySelector(this._selectorTemplate)
       .content
@@ -62,6 +61,7 @@ export default class Card {
     this._element = this._getTemplate();
     this._setEventListeners();
     this._element.querySelector('.element__title').textContent = this._title;
+    this._element.querySelector('.element__image').alt = this._title;
     this._element.querySelector('.element__image').src = this._image;
     containerWithCards.prepend(this._element);
   }
