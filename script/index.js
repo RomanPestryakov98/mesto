@@ -25,6 +25,7 @@ const crossCloses = document.querySelectorAll('.popup__close');  // Получа
 
 // Попап Профиля
 const popupProfile = document.querySelector('.popup_type_profile'); // Получаем попап профиля
+const submitProfile = popupProfile.querySelector('.popup__submit');
 const buttonOpen = document.querySelector('.profile__edit-button'); // Редактируем профиль
 const inputName = document.querySelector('.popup__input_type_name'); // Получаем инпут с именем
 const inputAbout = document.querySelector('.popup__input_type_about'); // Получаем инпут с информацией о себе
@@ -68,6 +69,8 @@ function prependCardInContainer(title, link, selector) {
 
 // Функцияя по заполнению полей профиля
 function createValueInput() {
+  new FormValidator(obj, formProfile).resetError();
+  new FormValidator(obj, formProfile).enableSubmitButton(submitProfile, obj.inactiveButtonClass)
   inputName.value = nameProfile.textContent;
   inputAbout.value = textProfile.textContent;
   openPopup(popupProfile);
