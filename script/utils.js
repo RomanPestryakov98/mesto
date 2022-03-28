@@ -6,14 +6,14 @@ export function openPopup(popup) {
 
 // Функцияя закрытия попапа Esc
 function closePopupEsc(evt) {
-  const popupOpen = searchPopupOpen();
-  if (evt.key === 'Escape' && popupOpen) {
+  if (evt.key === 'Escape') {
+    const popupOpen = searchPopupOpen();
     closePopup(popupOpen);
   }
 }
 
 // Функцияя поиска открытого попапа
-function searchPopupOpen() {
+export function searchPopupOpen() {
   return document.querySelector('.popup_opened');
 }
 
@@ -21,9 +21,4 @@ function searchPopupOpen() {
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEsc);
-}
-
-export function disableSubmitButton(submit, inactiveButtonClass) {
-  submit.classList.add(inactiveButtonClass);
-  submit.setAttribute('disabled', true);
 }

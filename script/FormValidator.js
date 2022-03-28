@@ -1,6 +1,4 @@
-import { disableSubmitButton } from './utils.js';
-
-export default class FormValidator {
+export class FormValidator {
   constructor(settingsObject, formElement) {
     this._settingsObject = settingsObject;
     this._formElement = formElement;
@@ -40,7 +38,7 @@ export default class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      disableSubmitButton(this._buttonElement, this._settingsObject.inactiveButtonClass)
+      this.disableSubmitButton(this._buttonElement, this._settingsObject.inactiveButtonClass)
     }
     else {
       this._enableSubmitButton()
@@ -53,15 +51,17 @@ export default class FormValidator {
     })
   }
 
+  disableSubmitButton(submit, inactiveButtonClass) {
+    submit.classList.add(inactiveButtonClass);
+    submit.setAttribute('disabled', true);
+  }
+
   _enableSubmitButton() {
     this._buttonElement.classList.remove(this._settingsObject.inactiveButtonClass);
     this._buttonElement.removeAttribute('disabled');
   }
 
   enableValidation() {
-    this._formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    })
     this._setEventListeners();
   }
 

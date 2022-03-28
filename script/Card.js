@@ -3,7 +3,6 @@ import { openPopup } from "./utils.js";
 const popupOpenImage = document.querySelector('.popup_type_image');
 const srcPopupImage = popupOpenImage.querySelector('.popup__image');
 const textPopupImage = popupOpenImage.querySelector('.popup__label-text');
-const containerWithCards = document.querySelector('.elements');
 
 
 export default class Card {
@@ -63,6 +62,6 @@ export default class Card {
     this._element.querySelector('.element__title').textContent = this._title;
     this._element.querySelector('.element__image').alt = this._title;
     this._element.querySelector('.element__image').src = this._image;
-    containerWithCards.prepend(this._element);
+    return this._element;
   }
 }

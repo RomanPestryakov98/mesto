@@ -1,6 +1,7 @@
 import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import { openPopup, closePopup, disableSubmitButton } from "./utils.js";
+import { FormValidator } from './FormValidator.js';
+import { openPopup, closePopup, searchPopupOpen } from "./utils.js";
+import { initialCards } from "./initialCards.js";
 
 // Объект настроек с селекторами и классами формы;
 const obj = {
@@ -12,38 +13,11 @@ const obj = {
   errorClass: 'popup__error_visible'
 }
 
-// Массив с карточками
-const initialCards = [
-  {
-    name: 'Цветные скалы Чжанъе Данксиа',
-    link: 'https://ie.wampi.ru/2022/02/14/01.jpg'
-  },
-  {
-    name: 'Река Ли, Китай',
-    link: 'https://ie.wampi.ru/2022/02/14/025b233a58d12675ff.jpg'
-  },
-  {
-    name: 'Долина Йосемити, США',
-    link: 'https://ie.wampi.ru/2022/02/14/03.jpg'
-  },
-  {
-    name: 'Древний город Петра',
-    link: 'https://ie.wampi.ru/2022/02/14/04.jpg'
-  },
-  {
-    name: 'Город инков Мачу-Пикчу',
-    link: 'https://ie.wampi.ru/2022/02/14/05.jpg'
-  },
-  {
-    name: 'Деревня Гасадалур',
-    link: 'https://ie.wampi.ru/2022/02/14/06.jpg'
-  }
-];
-
 
 const allForms = Array.from(document.querySelectorAll('.popup__form')); // Находим все формы
 const nameProfile = document.querySelector('.profile__name'); // Получаем имя в профиле
 const textProfile = document.querySelector('.profile__text'); // Получаем текст в профиле
+const containerWithCards = document.querySelector('.elements');
 
 // Получаем общие элементы для всех попапов
 const overlaysPopup = document.querySelectorAll('.popup__overlay'); // Получаем оверлеи
@@ -78,9 +52,18 @@ function enableValidationForms() {
 // Функцияя по заполнению контейнера карточками при входе на страницу
 function pushCardsInContainer() {
   initialCards.forEach(function (elem) {
-    const card = new Card(elem.name, elem.link, '#add-card');
-    card.generatedCard()
+    prependCardInContainer(elem.name, elem.link, '#add-card')
   })
+}
+
+// Функция создания карточки
+function createCard(title, link, selector) {
+  return new Card(title, link, selector);
+}
+
+// Функция вставки карточки в контейнер
+function prependCardInContainer(title, link, selector) {
+  containerWithCards.prepend(createCard(title, link, selector).generatedCard())
 }
 
 // Функцияя по заполнению полей профиля
@@ -92,8 +75,8 @@ function createValueInput() {
 
 // Функцияя по открытию попапа добавления карточки
 function openAddCardPopup() {
-  disableSubmitButton(submitAddCard, obj.inactiveButtonClass)
   openPopup(popupAddCard);
+  new FormValidator(obj, formAddCard).disableSubmitButton(submitAddCard, obj.inactiveButtonClass)
 }
 
 // Получаем функцию по отпрвке формы
@@ -107,8 +90,7 @@ function sendForm(event) {
 // Получаем функцию по отправке формы с добавлением карточки
 function sendFormAddCard(event) {
   event.preventDefault();
-  const card = new Card(inputTitle.value, inputLink.value, '#add-card');
-  card.generatedCard();
+  prependCardInContainer(inputTitle.value, inputLink.value, '#add-card')
   formAddCard.reset();
   closePopup(popupAddCard);
 }
