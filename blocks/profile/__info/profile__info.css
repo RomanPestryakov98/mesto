@@ -1,7 +1,7 @@
 .profile__info {
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: max-content 24px;
+  grid-template-columns: fit-content(450px) 24px;
   align-items: center;
   column-gap: 18px;
   row-gap: 16px;
