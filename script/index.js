@@ -1,6 +1,6 @@
 import Card from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { openPopup, closePopup, searchPopupOpen } from "./utils.js";
+import { openPopup, closePopup } from "./utils.js";
 import { initialCards } from "./initialCards.js";
 
 // Объект настроек с селекторами и классами формы;
@@ -14,7 +14,6 @@ const obj = {
 }
 
 
-const allForms = Array.from(document.querySelectorAll('.popup__form')); // Находим все формы
 const nameProfile = document.querySelector('.profile__name'); // Получаем имя в профиле
 const textProfile = document.querySelector('.profile__text'); // Получаем текст в профиле
 const containerWithCards = document.querySelector('.elements');
@@ -41,13 +40,13 @@ const inputTitle = document.querySelector('.popup__input_type_title'); // Пол
 const inputLink = document.querySelector('.popup__input_type_link'); // Получаем инпут с ссылкой
 const formAddCard = document.querySelector('.popup__form_type_add-card'); // Получаем форму по добавлению карточки
 
+const validatorFormProfile = new FormValidator(obj, formProfile);
+const validatorFormAddCard = new FormValidator(obj, formAddCard);
 
 // Функция включения валидации для всех форм
 function enableValidationForms() {
-  allForms.forEach(function (form) {
-    const validationForm = new FormValidator(obj, form);
-    validationForm.enableValidation();
-  })
+  validatorFormProfile.enableValidation();
+  validatorFormAddCard.enableValidation();
 }
 
 // Функцияя по заполнению контейнера карточками при входе на страницу
@@ -58,19 +57,19 @@ function pushCardsInContainer() {
 }
 
 // Функция создания карточки
-function createCard(title, link, selector) {
-  return new Card(title, link, selector);
+function createCard(title, link) {
+  return new Card(title, link, '#add-card').generatedCard();
 }
 
 // Функция вставки карточки в контейнер
-function prependCardInContainer(title, link, selector) {
-  containerWithCards.prepend(createCard(title, link, selector).generatedCard())
+function prependCardInContainer(title, link) {
+  containerWithCards.prepend(createCard(title, link));
 }
 
 // Функцияя по заполнению полей профиля
 function createValueInput() {
-  new FormValidator(obj, formProfile).resetError();
-  new FormValidator(obj, formProfile).enableSubmitButton(submitProfile, obj.inactiveButtonClass)
+  validatorFormProfile.resetError();
+  validatorFormProfile.enableSubmitButton(submitProfile, obj.inactiveButtonClass)
   inputName.value = nameProfile.textContent;
   inputAbout.value = textProfile.textContent;
   openPopup(popupProfile);
@@ -79,7 +78,7 @@ function createValueInput() {
 // Функцияя по открытию попапа добавления карточки
 function openAddCardPopup() {
   openPopup(popupAddCard);
-  new FormValidator(obj, formAddCard).disableSubmitButton(submitAddCard, obj.inactiveButtonClass)
+  validatorFormAddCard.disableSubmitButton(submitAddCard, obj.inactiveButtonClass)
 }
 
 // Получаем функцию по отпрвке формы
