@@ -1,14 +1,8 @@
-import { openPopup } from "./utils.js";
-
-const popupOpenImage = document.querySelector('.popup_type_image');
-const srcPopupImage = popupOpenImage.querySelector('.popup__image');
-const textPopupImage = popupOpenImage.querySelector('.popup__label-text');
-
-
 export default class Card {
-  constructor(title, image, selectorTemplate) {
-    this._title = title;
-    this._image = image;
+  constructor({ item, handleCardClick }, selectorTemplate) {
+    this._title = item.name;
+    this._image = item.link;
+    this._handleCardClick = handleCardClick;
     this._selectorTemplate = selectorTemplate;
   }
 
@@ -18,7 +12,6 @@ export default class Card {
       .content
       .querySelector('.element')
       .cloneNode(true);
-
     return card;
   }
 
@@ -33,7 +26,7 @@ export default class Card {
     });
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._openCard();
+      this._handleCardClick(this._title, this._image);
     });
 
   };
@@ -46,14 +39,6 @@ export default class Card {
   // Лайк
   _toggleLike() {
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
-  }
-
-  // Открытие попапа
-  _openCard() {
-    srcPopupImage.src = this._image;
-    srcPopupImage.alt = this._title;
-    textPopupImage.textContent = this._title;
-    openPopup(popupOpenImage);
   }
 
   generatedCard() {

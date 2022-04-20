@@ -65,12 +65,12 @@
       <form action="#" name="profile" class="popup__form" novalidate>
         <label class="popup__label">
           <input type="text" placeholder="Имя" class="popup__input popup__input_type_name" id="input-name" required
-            minlength="2" maxlength="40">
+            minlength="2" maxlength="40" name="name">
           <span class="popup__error input-name-error"></span>
         </label>
         <label class="popup__label">
           <input type="text" placeholder="О себе" class="popup__input popup__input_type_about" id="input-about" required
-            minlength="2" maxlength="200">
+            minlength="2" maxlength="200" name="info">
           <span class="popup__error input-about-error"></span>
         </label>
         <button type="submit" class="popup__submit">Сохранить</button>
@@ -88,12 +88,12 @@
       <form action="#" name="add-card" class="popup__form popup__form_type_add-card" novalidate>
         <label class="popup__label">
           <input type="text" placeholder="Название" class="popup__input popup__input_type_title" id="input-title"
-            required minlength="2" maxlength="30">
+            required minlength="2" maxlength="30" name="name">
           <span class="popup__error input-title-error"></span>
         </label>
         <label class="popup__label">
           <input type="url" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link" id="input-url"
-            required>
+            required name="link">
           <span class="popup__error input-url-error"></span>
         </label>
         <button type="submit" class="popup__submit">Создать</button>
@@ -114,11 +114,15 @@
     </div>
   </div>
 
-  <script type="module" src="./script/initialCards.js"></script>
-  <script type="module" src="./script/utils.js"></script>
-  <script type="module" src="./script/Card.js"></script>
-  <script type="module" src="./script/FormValidator.js"></script>
-  <script type="module" src="./script/index.js"></script>
+  <script type="module" src="./script/components/Popup.js"></script>
+  <script type="module" src="./script/components/PopupWithImage.js"></script>
+  <script type="module" src="./script/components/PopupWithForm.js"></script>
+  <script type="module" src="./script/components/Section.js"></script>
+  <script type="module" src="./script/utils/initialCards.js"></script>
+  <script type="module" src="./script/utils/utils.js"></script>
+  <script type="module" src="./script/components/Card.js"></script>
+  <script type="module" src="./script/components/FormValidator.js"></script>
+  <script type="module" src="./pages/index.js"></script>
 </body>
 
 </html>
