@@ -1,3 +1,4 @@
+import './index.css';
 // Импорт классов
 import Card from '../script/components/Card.js';
 import Section from "../script/components/Section.js";
