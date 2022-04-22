@@ -25,7 +25,7 @@ export default class Card {
       this._toggleLike();
     });
 
-    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._imageElement.addEventListener('click', () => {
       this._handleCardClick(this._title, this._image);
     });
 
@@ -33,7 +33,7 @@ export default class Card {
 
   // Удаление карточки
   _deleteCard() {
-    this._element.closest('.element').remove();
+    this._element.remove();
   }
 
   // Лайк
@@ -43,10 +43,11 @@ export default class Card {
 
   generatedCard() {
     this._element = this._getTemplate();
+    this._imageElement = this._element.querySelector('.element__image');
     this._setEventListeners();
     this._element.querySelector('.element__title').textContent = this._title;
-    this._element.querySelector('.element__image').alt = this._title;
-    this._element.querySelector('.element__image').src = this._image;
+    this._imageElement.alt = this._title;
+    this._imageElement.src = this._image;
     return this._element;
   }
 }
