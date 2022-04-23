@@ -10,6 +10,7 @@ export const buttonAddCard = document.querySelector('.profile__add-button'); // 
 export const formAddCard = document.querySelector('.popup__form_type_add-card'); // Получаем форму по добавлению карточки
 export const popupInputName = document.querySelector('.popup__input_type_name'); // Получаем инпут имени профиля
 export const popupInputAbout = document.querySelector('.popup__input_type_about'); // Получаем инпут имени профиля
+export const submitAddCard = popupAddCard.querySelector('.popup__submit'); // Получаем кнопку создания карточки
 
 // Объект настроек с селекторами и классами формы;
 export const obj = {

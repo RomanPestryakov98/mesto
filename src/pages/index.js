@@ -11,7 +11,7 @@ import { containerWithCards, formProfile, popupImage, popupProfile, popupAddCard
 import { initialCards } from "../script/utils/initialCards.js";
 
 // Импорт функций
-import { addValuesInInputs } from "../script/utils/utils.js";
+import { addValuesInInputs, openCreateCardPopup } from "../script/utils/utils.js";
 
 
 function handleCardClick(title, link) {
@@ -43,7 +43,7 @@ export const popupEditProfile = new PopupWithForm(popupProfile, {
 popupEditProfile.setEventListeners();
 
 
-const popupCreateCard = new PopupWithForm(popupAddCard, {
+export const popupCreateCard = new PopupWithForm(popupAddCard, {
   handleSubmitForm: (values) => {
     const newCard = createCard(values);
     filterList.addItem(newCard);
@@ -54,7 +54,7 @@ popupCreateCard.setEventListeners();
 
 
 const validatorFormProfile = new FormValidator(obj, formProfile);
-const validatorFormAddCard = new FormValidator(obj, formAddCard);
+export const validatorFormAddCard = new FormValidator(obj, formAddCard);
 
 // Функция включения валидации для всех форм
 function enableValidationForms() {
@@ -66,7 +66,7 @@ function enableValidationForms() {
 buttonOpen.addEventListener('click', addValuesInInputs);
 
 // Обработчки клика по открытию попапа c добавлением карточки
-buttonAddCard.addEventListener('click', () => popupCreateCard.open());
+buttonAddCard.addEventListener('click', openCreateCardPopup);
 
 enableValidationForms(); // Включаем валидацию всех форм
 
