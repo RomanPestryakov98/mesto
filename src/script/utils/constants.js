@@ -32,4 +32,4 @@ export const obj = {
   errorClass: 'popup__error_visible'
 }
 
-export const userInfo = new UserInfo({ name: '.profile__name', info: '.profile__text' });
+export const userInfo = new UserInfo({ name: '.profile__name', info: '.profile__text', avatar: '.profile__avatar-image' });

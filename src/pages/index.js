@@ -8,7 +8,7 @@ import PopupWithForm from '../script/components/PopupWithForm.js';
 import FormValidator from '../script/components/FormValidator.js';
 
 // Импорт переменных
-import { submitProfile, submitAddCard, submitRedactionAvatar, avatarUrl, containerWithCards, formProfile, popupImage, popupProfile, popupAddCard, buttonOpen, buttonAddCard, formAvatar, formAddCard, obj, userInfo, popupDeleteCard, buttonRedAvatar, popupAvatar } from "../script/utils/constants.js";
+import { submitProfile, submitAddCard, submitRedactionAvatar, containerWithCards, formProfile, popupImage, popupProfile, popupAddCard, buttonOpen, buttonAddCard, formAvatar, formAddCard, obj, userInfo, popupDeleteCard, buttonRedAvatar, popupAvatar } from "../script/utils/constants.js";
 
 // Импорт функций
 import { renderLoading, createCard, addValuesInInputs, openCreateCardPopup, createArrCardsFromServer, initLoadDataProfile, handleDeleteCard, openRedactionAvatarPopup } from "../script/utils/utils.js";
@@ -32,12 +32,18 @@ popupWithDeleteCard.setEventListeners();
 
 export const popupEditProfile = new PopupWithForm(popupProfile, {
   handleSubmitForm: (values) => {
-    userInfo.setUserInfo(values);
+    renderLoading('Сохранение...', submitProfile)
     api.updateDataProfile(values)
-      .finally(() => {
-        renderLoading('Сохранение...', submitProfile)
+      .then(() => {
+        userInfo.setUserInfo(values);
+        popupEditProfile.close();
       })
-    popupEditProfile.close();
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading('Сохранить', submitProfile)
+      })
   }
 });
 popupEditProfile.setEventListeners();
@@ -45,16 +51,16 @@ popupEditProfile.setEventListeners();
 
 export const popupCreateCard = new PopupWithForm(popupAddCard, {
   handleSubmitForm: (values) => {
+    renderLoading('Сохранение...', submitAddCard)
     api.addNewCard(values)
       .then(res => {
         const arr = createArrCardsFromServer([res], res.owner._id)
         filterList.addItem(createCard(arr[0]));
+        popupCreateCard.close();
       })
       .finally(() => {
-        renderLoading('Сохранение...', submitAddCard)
+        renderLoading('Создать', submitAddCard)
       })
-
-    popupCreateCard.close();
   }
 });
 popupCreateCard.setEventListeners();
@@ -62,12 +68,18 @@ popupCreateCard.setEventListeners();
 
 export const popupRedAvatar = new PopupWithForm(popupAvatar, {
   handleSubmitForm: (values) => {
+    renderLoading('Сохранение...', submitRedactionAvatar)
     api.updateAvatar({ link: values.link })
-      .finally(() => {
-        renderLoading('Сохранение...', submitRedactionAvatar)
+      .then(() => {
+        userInfo.setAvatar(values.link);
+        popupRedAvatar.close();
       })
-    avatarUrl.src = values.link;
-    popupRedAvatar.close();
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading('Сохранить', submitRedactionAvatar)
+      })
   }
 })
 popupRedAvatar.setEventListeners();
@@ -114,6 +126,9 @@ Promise.all([api.getDataProfile(), api.getDataCards()])
     arrWithDataCards.forEach(card => {
       filterList.addItem(createCard(card))
     })
+  })
+  .catch(errs => {
+    console.log(errs)
   })
 
 

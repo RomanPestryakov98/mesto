@@ -15,23 +15,16 @@ function openPopupDeleteCard(card, cardId) {
   popupWithDeleteCard.open(card, cardId);
 }
 
-function serverAddLike(cardId, selector) {
-  api.addLike(cardId)
-    .then((res) => {
-      selector.textContent = res;
-    })
+function serverAddLike(cardId) {
+  return api.addLike(cardId)
 }
 
-function serverRemoveLike(cardId, selector) {
-  api.deleteLike(cardId)
-    .then((res) => {
-      selector.textContent = res;
-    })
+function serverRemoveLike(cardId) {
+  return api.deleteLike(cardId)
 }
 
 // функция открытия попапа и заполнения полей профиля
 export function addValuesInInputs() {
-  renderLoading('Сохранить', submitProfile)
   const objValues = userInfo.getUserInfo();
   popupInputName.value = objValues.name;
   popupInputAbout.value = objValues.info;
@@ -39,22 +32,18 @@ export function addValuesInInputs() {
 }
 
 // функция удаления карточки
-export function handleDeleteCard(card, cardId) {
-  card.remove();
-  api.deleteCard(cardId);
-  popupWithDeleteCard.close();
+export function handleDeleteCard(cardId) {
+  return api.deleteCard(cardId);
 }
 
 // функция открытия попапа с изменением аватара
 export function openRedactionAvatarPopup() {
-  renderLoading('Сохранить', submitRedactionAvatar)
   popupRedAvatar.open();
   validatorFormAvatar.disableSubmitButton(submitRedactionAvatar, obj.inactiveButtonClass);
 }
 
 // функция открытия попапа с добавлением карточки
 export function openCreateCardPopup() {
-  renderLoading('Создать', submitAddCard)
   popupCreateCard.open();
   validatorFormAddCard.disableSubmitButton(submitAddCard, obj.inactiveButtonClass);
 }
